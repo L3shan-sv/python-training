@@ -40,7 +40,6 @@ for pod in pods:
         unhealthy_pods += 1
         break
 
-
 if rollback_status:
     print("ROLLBACK COMPLETE")
 elif healthy_pods < 4:
