@@ -11,7 +11,7 @@ print("Pod statuses for this rollout:", pods)
 healthy_pods = 0
 unhealthy_pods = 0
 rollback_status = False
-max_tries = 2
+max_tries = 3
 
 for pod in pods:
     print("Checking pod:", pod)
