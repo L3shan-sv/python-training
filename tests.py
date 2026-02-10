@@ -29,6 +29,6 @@ if unhealthy_pods<4:
 if rollback_status:
     print("Rollout succesfull")
 else:
-    print("Rollout Complete")           
+    print("Rollout Complete")           ``
 
 
