@@ -1,48 +1,37 @@
-import random
-
-pods = []
-states = ["running", "pending", "crashed"]
-
-for i in range(6):
-    pods.append(random.choice(states))
-
-print("Pod statuses for this rollout:", pods)
-
-healthy_pods = 0
-unhealthy_pods = 0
-rollback_status = False
-max_tries = 3
+pods = ["running","running" "pending" "crashed" "pending"]
+max_tries=0
+tries=0
+unhealthy_count=0
+healthy_count=0
+Deplyoment=True
 
 for pod in pods:
-    print("Checking pod:", pod)
-
-    if pod == "running":
-        print("Pod healthy, continuing rollout")
-        healthy_pods += 1
+    print("Application Review Initiated")
+    if pod =="running":
+        print("Pod Healthy Proceed")
+        healthy_count=healthy_count+1
         continue
-
-    if pod == "pending":
-        tries = 0
-        while tries < max_tries:
-            print("Pod pending, retrying...")
-            tries += 1
-            if tries == max_tries:
-                print("Pod stuck, stopping rollout")
-                unhealthy_pods += 1
-                rollback_status = True
-                break
-        if rollback_status:
-            break
-
-    if pod == "crashed":
-        print("Pod crashed, rollback initiated")
-        rollback_status = True
-        unhealthy_pods += 1
+    if pod =="pending" and tries< max_tries:
+        print ("Pod Pending, Rechecking....")
+    else:
+        print("Pod Failed")
+        unhealthy_count=unhealthy_count+1
+        continue
+    if pod =="crashed":
+        print(" Pod Craded...")
+        unhealthy_count=unhealthy_count+1
         break
+    if unhealthy_count >3:
+        Deplyoment=False
 
-if rollback_status:
-    print("ROLLBACK COMPLETE")
-elif healthy_pods < 4:
-    print("ROLLOUT UNSTABLE")
+if Deplyoment:
+    print("Auditing Required")
+
+elif healthy_count >3:
+    print("System Healthy")
 else:
-    print("ROLLOUT SUCCESSFUL")
+    (" Syetem Failed")
+
+
+
+
