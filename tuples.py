@@ -1,12 +1,18 @@
-students= ("Leshan", "20", "Cloud Engineer")
+# today we studying tuples
+students=("Bro","21", "male")
 
+print (students.index("21"))
 
-print( students.index("Leshan"))
-
-if "Leshan" in students:
-    print("present")
-    
 for x in students: 
-    print( ''.join(reversed(x)))
+    print(x)
     
-    
+if "Bro" in students:
+    print( "bro is here") 
+else: 
+    print( "bro is absent")       
+    \
+        
+        
+        
+        
+        
