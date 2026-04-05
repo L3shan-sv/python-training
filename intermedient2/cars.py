@@ -1,60 +1,51 @@
+
 from flask import Flask, jsonify, request
+from models import Service, ServiceRegistry
+
 app = Flask(__name__)
+registry = ServiceRegistry()
 
-class Grade8:
-    def __init__(self, name, id , contact):
-        self.name=name
-        self.id=id
-        self.contact=contact
-        
-    def introduce(self):
-        print(f" This is {self.name} their id number is {self.id} their emergency contact info is  {self.contact}")
-    
-    def to_dict(self):
-        return{
-            "name":self.name,
-            "id":self.id,
-            "contact":self.contact
- 
-        }
-        
-        
-class StudentRegistry:
-    def __init__(self):
-        self.students=[]
-        
-    def student_add(self,student):
-        self.students.append(student)
-    def student_list(self):
-        for s in self.students:
-            return[s.to_dict() for s in self.students]
-
-registry=StudentRegistry()
 
 @app.route("/")
 def home():
-    return"server active"            
-            
-@app.route("/students", methods=["GET"])        
-def get_students():
-    return jsonify(registry.student_list())
+    return "SRE Monitor Running 🚀"
 
-@app.route("/students", methods=["POST"])
-def student_add():
-    data=request.json
-    
-    student=Grade8(
-        data["name"],
-        data["id"],
-        data["contact"],
-    )
-    
-    registry.student_add(student)
-    return{"message" : "Student Succesfully added"}
-    
-if __name__=="__main__":
-    app.run(debug=True)
-    
 
-        
-                
+# ➕ Add service
+@app.route("/services", methods=["POST"])
+def add_service():
+    data = request.json
+    service = Service(data["name"], data["status"])
+    registry.add_service(service)
+    return {"message": "Service added"}, 201
+
+
+# 📋 List services
+@app.route("/services", methods=["GET"])
+def list_services():
+    return jsonify(registry.list_services())
+
+
+# 🔄 Update service
+@app.route("/services/<name>", methods=["PUT"])
+def update_service(name):
+    data = request.json
+    success = registry.update_service(name, data["status"])
+    if success:
+        return {"message": "Service updated"}
+    return {"error": "Service not found"}, 404
+
+
+# ❌ Delete service
+@app.route("/services/<name>", methods=["DELETE"])
+def delete_service(name):
+    success = registry.delete_service(name)
+    if success:
+        return {"message": "Service deleted"}
+    return {"error": "Service not found"}, 404
+
+
+# 🔥 HEALTH CHECK
+@app.route("/health", methods=["GET"])
+def health():
+    return {"system_status": registry.health_check()}

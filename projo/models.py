@@ -1,74 +1,68 @@
 import json
 
-class Service:
-    def __init__(self, name, status, restart_count=0):
-        self.name = name
-        self.status = status
-        self.restart_count = restart_count
-
+class Students:
+    def __init__(self, name , course, id):
+        self.name=name
+        self.course=course
+        self.id=id
+    
     def to_dict(self):
-        return {
-            "name": self.name,
-            "status": self.status,
-            "restart_count": self.restart_count,
+        return{
+            "name":self.name,
+            "course":self.course,
+            "id":self.id
         }
-
     @staticmethod
     def from_dict(data):
-        return Service(
+        return Students( 
             data["name"],
-            data["status"],
-            data["restart_count"],
+            data["course"]
+            data["id"]
+            
         )
 
-
-class ServiceRegistry:
-    def __init__(self, filename="service.json"):
-        self.filename = filename
-        self.services = []
-        self.load()
-
-    def service_add(self, service):
-        self.services.append(service)
+class StudentRegistry:
+    def __init__(self, filename= "students.json"):
+        self.filename=filename
+        self.students=[]
+        self.load=()
+        
+    def student_add(self,student):
+        self.students.append(student)
         self.save()
-
-    def service_list(self):
-        return [s.to_dict() for s in self.services]
-
-    def service_get(self, name):
-        for s in self.services:
-            if s.name == name:
+    def student_list(self):
+        return [s.to_dict() for s in self.students]
+    
+    def  student_get(self,name):
+        for s in self.students:
+            if self.name==name:
                 return s
-        return None
-
-    def service_update(self, name, status):
-        service = self.service_get(name)
-        if service:
-            if service.status != "running" and status == "running":
-                service.restart_count += 1
-            service.status = status
-            self.save()
-            return True
-        return False
-
-    def service_delete(self, name):
-        service = self.service_get(name)
+            return None
+    def student_delete(self, name):
+        service= self.student_get
         if service:
             self.services.remove(service)
             self.save()
-            return True
-        return False
-
-    # 💾 Persistence
+    
     def save(self):
-        data = [s.to_dict() for s in self.services]
-        with open(self.filename, "w") as f:
+        data=[s.to_dict() for s in self.students]
+        with open (self.filename, "w" )as f:
             json.dump(data, f, indent=4)
-
+    
     def load(self):
         try:
-            with open(self.filename, "r") as f:
-                data = json.load(f)
-                self.services = [Service.from_dict(d) for d in data]
-        except FileNotFoundError:
-            self.services = []
+            with open(self.filename, "r")as f:
+                data =json.load(f)
+                self.students= [Students.from_dict(d) for d in data]
+            except FileNotFoundError:
+                self.students=[]
+                
+            
+                
+            
+        
+        
+                   
+        
+    
+        
