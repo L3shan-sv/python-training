@@ -16,8 +16,8 @@ class Students:
     def from_dict(data):
         return Students( 
             data["name"],
-            data["course"]
-            data["id"]
+            data["course"],
+            data["id"],
             
         )
 
