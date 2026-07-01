@@ -1,16 +1,11 @@
 #include <stdio.h>
-int multiply_numbers( int a , int b){
-    int result = a*b;
-    return result;
-}
-
 int main(){
-    int a=5, b=4;
-    int product;
+    int value1, value2;
+    printf("key in your value1");
+    scanf("%d",value1);
+    printf("key in the value2");
+    scanf("%d",value2);
 
-    product =multiply_numbers(a,b);
-    printf(" The product of %d and %d is: %d\n", a,b , product);
-    return 0;
-
-
+    int sum=value1+value2;
+    printf("the sum is:d\n",sum);
 }
